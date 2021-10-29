@@ -39,7 +39,7 @@ http://localhost:5000/hotel/hotelA
 - GET /hotel/:hotelName/:email/:phone
 
 ```
-http://localhost:5000/hotel/hotelA/test@test.com/1234568912
+http://localhost:5000/hotel/hotelA/test1@test.com/12345678901
 ```
 
 - POST /hotel/:hotelName
