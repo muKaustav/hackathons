@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Sawo from "sawo"
 
 export const Auth = () => {
     return (
