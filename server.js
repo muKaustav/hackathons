@@ -1,11 +1,11 @@
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
 const app = express()
-app.use(express.json())
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 conn1 = mongoose.createConnection(
 	'mongodb+srv://atlasAdmin:zY78wlSbEdiTzTAe@cluster0.irbo7.mongodb.net/MockAadhaar',
@@ -23,7 +23,7 @@ const dataSchema = new mongoose.Schema({
 })
 
 app.get('/aadhaar', (req, res) => {
-  const State = conn1.model(User, dataSchema)
+  const State = conn1.model('User', dataSchema)
 
   State.find({}, (err, data) => {
     if (err) {
@@ -35,7 +35,7 @@ app.get('/aadhaar', (req, res) => {
 })
 
 app.get('/aadhaar/:aadhaar', (req, res) => {
-  const State = conn1.model(User, dataSchema)
+  const State = conn1.model('User', dataSchema)
 
   State.find({ aadhaar: req.params.aadhaar }, (err, data) => {
     if (err) {
@@ -47,7 +47,7 @@ app.get('/aadhaar/:aadhaar', (req, res) => {
 })
 
 app.post('/aadhaar', (req, res) => {
-  const State = conn1.model(User, dataSchema)
+  const State = conn1.model('User', dataSchema)
 
   const state = new State({
     name: req.body.name,
