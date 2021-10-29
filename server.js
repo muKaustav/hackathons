@@ -7,7 +7,7 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-conn1 = mongoose.createConnection(
+AadhaarDB = mongoose.createConnection(
 	'mongodb+srv://atlasAdmin:zY78wlSbEdiTzTAe@cluster0.irbo7.mongodb.net/MockAadhaar',
   {
     useNewUrlParser: true,
@@ -15,17 +15,41 @@ conn1 = mongoose.createConnection(
   }
 )
 
-const dataSchema = new mongoose.Schema({
-  name: String,
-  aadhaar: Number,
+HotelDB = mongoose.createConnection(
+	'mongodb+srv://atlasAdmin:zY78wlSbEdiTzTAe@cluster0.irbo7.mongodb.net/HotelDB',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+)
+
+const residentSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  aadhaar: { type: Number, unique: true },
   phone: String,
   mock_image: Boolean
 })
 
-app.get('/aadhaar', (req, res) => {
-  const State = conn1.model('User', dataSchema)
+const hotelSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: { type: String, unique: true },
+  phone: { type: String, unique: true },
+  expiry: Date,
+  face_image: String
+})
 
-  State.find({}, (err, data) => {
+// GET /resident
+
+app.get('/resident', (req, res) => {
+  const Resident = AadhaarDB.model('User', residentSchema)
+
+  Resident.find({}, (err, data) => {
     if (err) {
       console.log(err)
     } else {
@@ -34,10 +58,12 @@ app.get('/aadhaar', (req, res) => {
   })
 })
 
-app.get('/aadhaar/:aadhaar', (req, res) => {
-  const State = conn1.model('User', dataSchema)
+// GET /resident/:aadhaar
 
-  State.find({ aadhaar: req.params.aadhaar }, (err, data) => {
+app.get('/resident/:aadhaar', (req, res) => {
+  const Resident = AadhaarDB.model('User', residentSchema)
+
+  Resident.find({ aadhaar: req.params.aadhaar }, (err, data) => {
     if (err) {
       res.send(err)
     } else {
@@ -46,17 +72,72 @@ app.get('/aadhaar/:aadhaar', (req, res) => {
   })
 })
 
-app.post('/aadhaar', (req, res) => {
-  const State = conn1.model('User', dataSchema)
+// POST /resident
 
-  const state = new State({
+app.post('/resident', (req, res) => {
+  const Resident = AadhaarDB.model('User', residentSchema)
+
+  const resident = new Resident({
     name: req.body.name,
     aadhaar: req.body.aadhaar,
     phone: req.body.phone,
     mock_image: req.body.mock_image
   })
 
-  state.save((err, data) => {
+  resident.save((err, data) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(data)
+    }
+  })
+})
+
+// GET /hotel/:hotelName
+
+app.get('/hotel/:hotelName', (req, res) => {
+  const Hotel = HotelDB.model(req.params.hotelName, hotelSchema)
+
+  Hotel.find({}, (err, data) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(data)
+    }
+  })
+})
+
+// GET /hotel/:hotelName/:email/:phone
+
+app.get('/hotel/:hotelName/:email/:phone', (req, res) => {
+  const Hotel = HotelDB.model(req.params.hotelName, hotelSchema)
+
+  Hotel.find(
+		{ email: req.params.email, phone: req.params.phone },
+		(err, data) => {
+  if (err) {
+    res.send(err)
+  } else {
+    res.send(data)
+  }
+}
+	)
+})
+
+// POST /hotel/:hotelName
+
+app.post('/hotel/:hotelName', (req, res) => {
+  const Hotel = HotelDB.model(req.params.hotelName, hotelSchema)
+
+  const hotel = new Hotel({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    expiry: req.body.expiry,
+    face_image: req.body.face_image
+  })
+
+  hotel.save((err, data) => {
     if (err) {
       res.send(err)
     } else {
