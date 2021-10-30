@@ -1,6 +1,6 @@
 
-import './App.css';
-import {Auth} from './routes/auth';
+
+import LoginPage from './routes/auth';
 import {Home} from './routes/home';
 import {Route, BrowserRouter as Router} from 'react-router-dom'
 import {Verification} from './routes/verification';
@@ -13,7 +13,7 @@ function App() {
     
     <Route path="/" exact component={Home}/>
     <Route path="/verification" component={Verification}/>
-    <Route path="/auth" component={Auth}/>
+    <Route path="/auth" component={LoginPage}/>
     <Route path="/user" component={UserInfo}/>
 
 
