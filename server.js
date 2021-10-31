@@ -159,7 +159,7 @@ app.post('/hotel/:hotelName', (req, res) => {
 // })
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+  res.sendFile(path.join(__dirname, 'client', 'public', 'index.html'))
 })
 
 PORT = process.env.PORT || 5000
