@@ -1,5 +1,4 @@
 
-import './App.css';
 import {Auth} from './routes/auth';
 import {Home} from './routes/home';
 import {Route, BrowserRouter as Router} from 'react-router-dom'
