@@ -1,8 +1,8 @@
 const cors = require('cors')
+const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-
 
 const app = express()
 app.use(cors())
@@ -147,22 +147,17 @@ app.post('/hotel/:hotelName', (req, res) => {
   })
 })
 
-
 // login auth
-const path = require("path");
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')))
 
-
-
-app.get("/login", (req, res) => {
-  res.sendFile(__dirname + "/serverhtml/login.html");
-});
-
-// gauti success page
-app.get("/success", (req, res) => {
-  res.sendFile(__dirname + "/public/success.html");
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/serverhtml/login.html')
 })
 
+// gauti success page
+app.get('/success', (req, res) => {
+  res.sendFile(__dirname + '/public/success.html')
+})
 
 app.get('*', (req, res) => {
   res.redirect('/')
