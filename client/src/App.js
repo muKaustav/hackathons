@@ -1,26 +1,17 @@
+import Login from './routes/Login/Login'
+import Landing from './routes/Landing/Landing'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import './App.scss'
 
-
-import LoginPage from './routes/auth';
-import {Home} from './routes/home';
-import {Route, BrowserRouter as Router} from 'react-router-dom'
-import {Verification} from './routes/verification';
-
-import { UserInfo } from './routes/userInfo';
-
-function App() {
+function App () {
   return (
-    <Router>
-    
-    <Route path="/" exact component={Home}/>
-    <Route path="/verification" component={Verification}/>
-    <Route path="/auth" component={LoginPage}/>
-    <Route path="/user" component={UserInfo}/>
-
-
-    </Router>
-    
-    
-  );
+    <BrowserRouter>
+      <Switch>
+        <Route path='/' exact component={Landing} />
+        <Route path='/login' component={Login} />
+      </Switch>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
