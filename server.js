@@ -1,12 +1,13 @@
 const cors = require('cors')
+const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
-
 const app = express()
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, 'public')))
 
 AadhaarDB = mongoose.createConnection(
 	'mongodb+srv://atlasAdmin:zY78wlSbEdiTzTAe@cluster0.irbo7.mongodb.net/MockAadhaar',
@@ -147,25 +148,18 @@ app.post('/hotel/:hotelName', (req, res) => {
   })
 })
 
+// // login auth
+// app.get('/login', (req, res) => {
+//   res.sendFile(__dirname + '/serverhtml/login.html')
+// })
 
-// login auth
-const path = require("path");
-app.use(express.static(path.join(__dirname, "public")));
-
-
-
-app.get("/login", (req, res) => {
-  res.sendFile(__dirname + "/serverhtml/login.html");
-});
-
-// gauti success page
-app.get("/success", (req, res) => {
-  res.sendFile(__dirname + "/public/success.html");
-})
-
+// // gauti success page
+// app.get('/success', (req, res) => {
+//   res.sendFile(__dirname + '/public/success.html')
+// })
 
 app.get('*', (req, res) => {
-  res.redirect('/')
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 })
 
 PORT = process.env.PORT || 5000
